@@ -1,0 +1,39 @@
+.login {
+  background: white;
+  position: relative;
+  padding: 2rem 3rem;
+  border-radius: 10px;
+  z-index: 999;
+  @media screen and (max-width: 991px) {
+    padding: 0.8rem 2rem;
+  }
+  h2 {
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  p {
+    color: rgba(73, 73, 73, 0.6);
+    font-weight: 400;
+    font-size: 0.875rem;
+  }
+  a {
+    font-size: 0.78rem;
+    &.text-primary {
+      text-decoration: none;
+      font-weight: 500;
+      color: #3a3a3d !important;
+    }
+    &.text-secondry {
+      text-decoration: none;
+      font-weight: 500;
+      color: #4aa35a !important;
+    }
+  }
+  .btn-primary {
+    border-radius: 8px;
+    background: #4aa35a;
+    border: none;
+    font-weight: 700;
+    padding: 0.5rem 10rem;
+  }
+}
