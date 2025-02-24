@@ -1,0 +1,59 @@
+<div class="d-flex justify-content-center align-items-center h-100 container">
+  <div class="col-md-10">
+    <div class="verify__account">
+      <div class="logo d-flex justify-content-center">
+        <img src="images/43.svg" alt="logo" width="300px" />
+      </div>
+      <div class="auth-register row">
+        <div class="text mt-2 col-10">
+          <h2>Verify Account</h2>
+          <p>Please Enter Your Otp or Check Your Inbox</p>
+        </div>
+      </div>
+      <form #verifyAccount="ngForm">
+        <div class="row">
+          <div class="col-12">
+            <div class="control">
+              <mat-icon>phone_iphone</mat-icon>
+              <div class="line"></div>
+              <input
+                type="text"
+                class="w-100"
+                placeholder="Email"
+                [(ngModel)]="email"
+                name="email"
+                #emailInput="ngModel"
+                required
+                email
+              />
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="control">
+              <mat-icon>lock</mat-icon>
+              <div class="line"></div>
+              <input
+                type="text"
+                class="w-100"
+                placeholder="OTP"
+                [(ngModel)]="code"
+                name="code"
+                #otpInput="ngModel"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-12 mt-2">
+            <button
+              class="btn btn-primary w-100"
+              (click)="checkEmail(verifyAccount)"
+              [disabled]="verifyAccount.invalid"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

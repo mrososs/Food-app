@@ -8,6 +8,7 @@ import {
 import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { passwordMatchValidator } from './cutsom-validator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ import { passwordMatchValidator } from './cutsom-validator';
 export class RegisterComponent {
   registerForm!: FormGroup;
 
-  constructor(private AuthService: AuthService, private toastr: ToastrService) {
+  constructor(private AuthService: AuthService, private toastr: ToastrService,private router:Router) {
     // Apply password match validator to the entire form group
     this.registerForm = new FormGroup({
       userName: new FormControl('', [
@@ -71,6 +72,9 @@ export class RegisterComponent {
           });
           console.error('Error registering user', error);
         },
+        complete:()=>{
+          this.router.navigate(['/auth/verifyAccount']);
+        }
       });
     }
   }
