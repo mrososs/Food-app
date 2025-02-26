@@ -5,6 +5,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { RegisterComponent } from './components/register/register.component';
 import { MatIconModule } from '@angular/material/icon';
+import { UploaderModule } from 'angular-uploader';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -20,7 +21,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     LoginComponent,
     VerifyAccountComponent,
     ForgetPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +30,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     ReactiveFormsModule,
     MatIconModule,
     RouterModule,
+    UploaderModule,
   ],
 })
 export class AuthModule {}

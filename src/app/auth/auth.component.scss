@@ -9,7 +9,7 @@ section {
   background-position: center; /* Centers the background image */
 
   @media screen and (max-width: 990px) {
-    height: 100vh; /* Ensures height remains full-screen on smaller screens */
+    height: auto; /* Ensures height remains full-screen on smaller screens */
   }
 }
 

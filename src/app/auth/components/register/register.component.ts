@@ -5,6 +5,8 @@ import {
   Validators,
   ValidatorFn,
 } from '@angular/forms';
+import { Uploader, UploadWidgetConfig, UploadWidgetResult } from 'uploader';
+
 import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { passwordMatchValidator } from './cutsom-validator';
@@ -17,8 +19,21 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   registerForm!: FormGroup;
+  photoUploaded!: boolean;
+  uploadedFileUrl!: string | undefined;
+  options = {
+    apiKey: 'free', // Get API keys from: www.bytescale.com
+    multi: true,
+  };
+  uploader = Uploader({
+    apiKey: 'public_223k25RCEsHUoH4r68qogb3jr1LK', // <-- Get production-ready API keys from Bytescale
+  });
 
-  constructor(private AuthService: AuthService, private toastr: ToastrService,private router:Router) {
+  constructor(
+    private AuthService: AuthService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {
     // Apply password match validator to the entire form group
     this.registerForm = new FormGroup({
       userName: new FormControl('', [
@@ -38,13 +53,20 @@ export class RegisterComponent {
           '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$'
         ),
       ]),
-      confirmPassword: new FormControl('', [Validators.required,passwordMatchValidator]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        passwordMatchValidator,
+      ]),
     }); // Apply custom validator here
+  }
 
+  onComplete = (files: UploadWidgetResult[]) => {
+    this.uploadedFileUrl = files[0]?.fileUrl;
+    if (this.uploadedFileUrl) {
+      this.photoUploaded = true;
     }
-  
-  
-  
+    this.toastr.success('photo uploaded successfully');
+  };
   onRegister() {
     if (this.registerForm.valid) {
       const formData = new FormData();
@@ -56,9 +78,8 @@ export class RegisterComponent {
       formData.append('phoneNumber', formValue.phonenumber);
       formData.append('password', formValue.password);
       formData.append('confirmPassword', formValue.confirmPassword);
-
-      if (formValue.profileImage) {
-        formData.append('profileImage', formValue.profileImage);
+      if (this.uploadedFileUrl) {
+        formData.append('profileImage', this.uploadedFileUrl);
       }
 
       this.AuthService.register(formData).subscribe({
@@ -72,9 +93,9 @@ export class RegisterComponent {
           });
           console.error('Error registering user', error);
         },
-        complete:()=>{
+        complete: () => {
           this.router.navigate(['/auth/verifyAccount']);
-        }
+        },
       });
     }
   }

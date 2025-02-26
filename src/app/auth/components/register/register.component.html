@@ -32,25 +32,25 @@
                   placeholder="username"
                 />
               </div>
-            </div>
-            <div
-              *ngIf="
-                registerForm.get('userName')?.invalid &&
-                registerForm.get('userName')?.touched
-              "
-            >
-              <small
-                class="text-danger"
-                *ngIf="registerForm.get('userName')?.errors?.['required']"
-                >Username is required.</small
+              <div
+                *ngIf="
+                  registerForm.get('userName')?.invalid &&
+                  registerForm.get('userName')?.touched
+                "
               >
-            </div>
-            <div
-              *ngIf="registerForm.get('userName')?.errors?.['minlength'] && registerForm.get('userName')?.touched"
-            >
-              <small class="text-danger"
-                >Username must be at least 3 characters long.</small
+                <small
+                  class="text-danger"
+                  *ngIf="registerForm.get('userName')?.errors?.['required']"
+                  >Username is required.</small
+                >
+              </div>
+              <div
+                *ngIf="registerForm.get('userName')?.errors?.['minlength'] && registerForm.get('userName')?.touched"
               >
+                <small class="text-danger"
+                  >Username must be at least 3 characters long.</small
+                >
+              </div>
             </div>
 
             <div class="col-12 col-lg-6">
@@ -236,7 +236,25 @@
               </div>
             </div>
           </div>
-
+          <div class="mt-3 d-flex justify-content-center align-items-center">
+            <button
+              uploadButton
+              class="btn btn-primary"
+              [uploadComplete]="onComplete"
+              [uploadOptions]="options"
+              [uploader]="uploader"
+            >
+            {{ photoUploaded ? 'Change the Photo' : 'Upload a Profile Photo...' }}
+            </button>
+            <img
+            *ngIf="uploadedFileUrl"
+            [src]="uploadedFileUrl"
+            alt="Uploaded Profile"
+            class="rounded-circle me-3"
+            width="50"
+            height="50"
+          />
+          </div>
           <div class="LoginNow d-flex justify-content-end align-items-end">
             <a [routerLink]="['/auth/login']">Login Now ?</a>
           </div>

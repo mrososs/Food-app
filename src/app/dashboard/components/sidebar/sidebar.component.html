@@ -1,3 +1,17 @@
-<p>
-  sidebar works!
-</p>
+<section>
+  <div class="side__bar">
+    <div class="d-flex align-items-center justify-content-center">
+      <img src="images\3.png" alt="logo" class="my-3" />
+    </div>
+    <div class="mt-5">
+      <ul>
+        <li *ngFor="let item of menuList">
+          <a [routerLink]="[item.route]" routerLinkActive="active">
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <h4>{{ item.name }}</h4></a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
