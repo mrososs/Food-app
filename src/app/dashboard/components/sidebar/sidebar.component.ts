@@ -26,7 +26,7 @@ export class SidebarComponent implements OnInit {
     {
       name: 'Recipes',
       icon: 'grid_view',
-      route: '/dashboard/Recipes',
+      route: 'admin/recipes',
       isAdmin:true
     },
     {

@@ -1,16 +1,32 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
 .side__bar {
   background: #1f263e;
-  width: 100%;
+  overflow: hidden;
   height: 100vh;
   border-top-right-radius: 58px;
-  img {
-    width: 200px;
-    height: 100px;
-    @media screen and (max-width: 768px) {
-      width: 150px;
-      height: 75px;
+  display: flex;
+  flex-direction: column;
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+
+    img {
+      width: 200px;
+      height: 100px;
+      @media screen and (max-width: 768px) {
+        width: 150px;
+        height: 75px;
+      }
     }
   }
+
   ul {
     list-style: none;
     padding: 0;
@@ -23,8 +39,8 @@
           opacity: 0.7;
         }
         opacity: 0.7;
-        width: 100%; /* Make anchor take full width */
-        padding: 2px 20px; /* Add some padding for better appearance */
+        width: 100%;
+        padding: 2px 20px;
         &.active {
           background: #2c3e50;
           opacity: 1;
@@ -42,7 +58,6 @@
         mat-icon {
           fill: white;
           color: #ffffff;
-          
         }
         h4 {
           @media screen and (max-width: 768px) {
@@ -59,5 +74,11 @@
         text-decoration: none;
       }
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .side__bar {
+    border-top-right-radius: 0;
   }
 }

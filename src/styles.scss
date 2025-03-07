@@ -4,6 +4,170 @@ body {
   font-family: "Inter", sans-serif !important;
   overflow-x: hidden;
 }
+.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__trailing {
+  border-color: #e0e2e7 !important;
+}
+/* Ensure table takes full width on larger screens */
+// .mat-mdc-table {
+//   width: clamp(
+//     300px,
+//     90vw,
+//     100%
+//   ) !important; /* Min 300px, Ideal 90vw, Max 100% */
+//   background-color: #e2e5eb !important;
+// }
+
+// /* Responsive Table Container */
+// .mat-mdc-table-container {
+//   overflow-x: auto; /* Enable horizontal scroll on small screens */
+// }
+
+// /* Table cells with dynamic height and scrollable content */
+// .mat-mdc-cell,
+// .mat-mdc-header-cell {
+//   max-height: clamp(50px, 10vh, 120px); /* Min 50px, Ideal 10vh, Max 120px */
+//   overflow-y: auto; /* Enable vertical scrolling */
+//   white-space: nowrap; /* Prevent text wrapping */
+//   text-overflow: ellipsis;
+// }
+
+.table {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+
+  // Hide scrollbar in WebKit browsers
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  .mat-mdc-table {
+    min-width: 800px; // Minimum width before scrolling starts
+    background: transparent !important;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .mat-mdc-header-row {
+    background: #e8ebf0 !important;
+    height: 60px;
+  }
+
+  .mat-mdc-header-cell {
+    color: #1f263e;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 16px;
+    white-space: nowrap;
+  }
+
+  .mat-mdc-row {
+    background: #f8f9fb;
+    height: 80px;
+
+    &:nth-child(even) {
+      background: #ffffff;
+    }
+
+    &:hover {
+      background: #f0f2f5;
+    }
+  }
+
+  .mat-mdc-cell {
+    color: #1f263e;
+    font-size: 14px;
+    padding: 16px;
+    &.mat-column-Description {
+      max-width: 300px; // Adjust this value as needed
+      white-space: normal; // Allow text to wrap
+
+      // Create text clamping
+      display: -webkit-box;
+      -webkit-line-clamp: 2; // Show only 2 lines
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.5;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+  }
+
+  // Actions column styling
+  .mat-column-actions {
+    .actions-container {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      button {
+        min-width: unset;
+        padding: 8px;
+        line-height: 1;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+
+        mat-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+
+          &.view {
+            color: #009247;
+          }
+
+          &.edit {
+            color: #2f80ed;
+          }
+
+          &.delete {
+            color: #eb5757;
+          }
+        }
+      }
+    }
+  }
+
+  // Price column styling
+  .mat-column-Price {
+    font-weight: 600;
+  }
+
+  // Tag and Category styling
+  .mat-column-tag,
+  .mat-column-category {
+    .tag-chip {
+      background: #e8ebf0;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+    }
+  }
+}
+
+// Update the actions column in your template to include icons
+
 .control {
   mat-icon {
     color: #8391a1;
@@ -30,10 +194,8 @@ body {
   input {
     background: none;
     border: none;
-  
   }
   input:focus {
     outline: none;
   }
-
 }

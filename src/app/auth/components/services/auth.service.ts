@@ -11,19 +11,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class AuthService {
   private apiUrl = 'https://upskilling-egypt.com:3006'; // API URL
 
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: object
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      if (localStorage.getItem('token')) {
-        const role = this.getUserGroup();
-        if (role) {
-          localStorage.setItem('role', role);
-        }
-      }
-    }
-  }
+  constructor(private http: HttpClient) {}
   register(userData: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/api/v1/Users/Register`,

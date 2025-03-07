@@ -1,0 +1,156 @@
+<section class="mt-3">
+  <div class="recipes__list">
+    <div class="welcome d-flex justify-content-between align-items-center">
+      <div>
+        <h1>Recipes <span>Items !</span></h1>
+        <p>
+          You can now add your items that any user can order it from the
+          Application and you can edit
+        </p>
+      </div>
+      <div class="d-flex justify-content-end align-items-end">
+        <img src="images/Group 48102127.png" alt="welcome" />
+      </div>
+    </div>
+    <div
+      class="d-flex justify-content-between align-items-center recipe__Section"
+    >
+      <div class="text mt-4">
+        <h1>Recipe Table Details</h1>
+        <p>You can check all details</p>
+      </div>
+      <div class="button">
+        <button class="btn btn-primary" (click)="openAddDialog()">
+          Add New Item
+        </button>
+      </div>
+    </div>
+    <div class="search__bar">
+      <div>
+        <form class="row align-items-center" [formGroup]="searchForm">
+          <mat-form-field
+            class="col-md-6 custom-form-field"
+            appearance="outline"
+          >
+            <mat-label class="test2">Search Here ...</mat-label>
+            <input matInput placeholder="Search" formControlName="name" />
+          </mat-form-field>
+          <mat-form-field class="col-md-2" appearance="outline">
+            <mat-label>Tag</mat-label>
+            <mat-select formControlName="tag">
+              <mat-option *ngFor="let tag of tagList" [value]="tag.id"
+                >{{ tag.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-2" appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category">
+              <mat-option
+                *ngFor="let category of categoryList"
+                [value]="category.id"
+                >{{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+        <div class="mt-5 table mb-5">
+          <mat-table #table [dataSource]="dataSource">
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- ItemName Column -->
+            <ng-container matColumnDef="ItemName">
+              <mat-header-cell *matHeaderCellDef> ItemName </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.name }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Image Column -->
+            <ng-container matColumnDef="Image">
+              <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <img
+                  [src]="element.imagePath"
+                  alt="{{ element.name }}"
+                  width="50"
+                  height="50"
+                />
+              </mat-cell>
+            </ng-container>
+
+            <!-- Price Column -->
+            <ng-container matColumnDef="Price">
+              <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.price | currency }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Description Column -->
+            <ng-container matColumnDef="Description">
+              <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.description }}
+              </mat-cell>
+            </ng-container>
+            <!-- tag Column -->
+            <ng-container matColumnDef="tag">
+              <mat-header-cell *matHeaderCellDef> tag </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.tag?.name }}
+              </mat-cell>
+            </ng-container>
+            <!-- category Column -->
+            <ng-container matColumnDef="category">
+              <mat-header-cell *matHeaderCellDef> category </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <span *ngFor="let cat of element.category"
+                  >{{ cat.name }}
+                </span>
+              </mat-cell>
+            </ng-container>
+            <!-- category Column -->
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  aria-label="Example icon-button with a menu"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <div class="actions-container">
+                    <button matTooltip="View">
+                      <mat-icon class="view">visibility</mat-icon>
+                    </button>
+                    <button matTooltip="Edit">
+                      <mat-icon class="edit">edit</mat-icon>
+                    </button>
+                    <button matTooltip="Delete">
+                      <mat-icon class="delete">delete</mat-icon>
+                    </button>
+                  </div>
+                </mat-menu>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="displayedColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
+        </div>
+        <div
+          *ngIf="noData"
+          class="d-flex justify-content-center align-items-center"
+        >
+          <img src="images/Group 48102294.png" alt="noData" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
