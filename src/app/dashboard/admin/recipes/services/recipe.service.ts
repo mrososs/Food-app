@@ -11,12 +11,20 @@ export class RecipeService {
   getRecipes(
     pageSize: number,
     pageNumber: number,
-    name?: string
+    name?: string,
+    tag?:string,
+    category?:string
   ): Observable<PaginatedFoodResponse> {
     let url = `/Recipe/?pageSize=${pageSize}&pageNumber=${pageNumber}`;
 
     if (name) {
       url += `&name=${encodeURIComponent(name)}`;
+    }
+    if(tag){
+      url+=`&tagId=${encodeURIComponent(tag)}`;
+    }
+    if(category){
+      url+=`&categoryId=${encodeURIComponent(category)}`;
     }
 
     return this._http.get<PaginatedFoodResponse>(url);

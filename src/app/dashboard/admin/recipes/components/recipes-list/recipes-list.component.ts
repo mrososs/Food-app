@@ -1,4 +1,7 @@
-import { ICategoryList, PaginatedCategoryResponse } from './../../../../../core/interfaces/category';
+import {
+  ICategoryList,
+  PaginatedCategoryResponse,
+} from './../../../../../core/interfaces/category';
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   FoodItem,
@@ -6,7 +9,15 @@ import {
 } from '../../../../../core/interfaces/recipe';
 import { RecipeService } from '../../services/recipe.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, take } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  merge,
+  Subject,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDialogComponent } from '../../../../../shared/components/add-dialog/add-dialog.component';
 import { SharedService } from '../../../../../shared/services/shared.service';
@@ -34,6 +45,8 @@ export class RecipesListComponent implements OnInit {
   dataSource: FoodItem[] = [];
   noData = false;
   searchForm!: FormGroup;
+  private destroy$ = new Subject<void>(); // 🚀 Unsubscribe handler
+
   fb = inject(FormBuilder);
   constructor(
     private recipeService: RecipeService,
@@ -48,16 +61,26 @@ export class RecipesListComponent implements OnInit {
       tag: [''],
       category: [''],
     });
-    this.searchForm
-      .get('name')
-      ?.valueChanges.pipe(
-        debounceTime(500), // Wait 500ms after typing stops
-        distinctUntilChanged() // Only trigger if the value actually changes
-      )
-      .subscribe((value) => {
-        this.getRecipes(value);
+    merge(
+      this.searchForm
+        .get('name')!
+        .valueChanges.pipe(debounceTime(500), distinctUntilChanged()),
+      this.searchForm.get('tag')!.valueChanges.pipe(distinctUntilChanged()),
+      this.searchForm.get('category')!.valueChanges.pipe(distinctUntilChanged())
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        const name = this.searchForm.get('name')!.value;
+        const tag = this.searchForm.get('tag')!.value;
+        const category = this.searchForm.get('category')!.value;
+        this.getRecipes(name, tag,category); // ✅ Call API with updated values
       });
+
     this.getRecipes();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete(); // ✅ Clean up subscriptions
   }
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddDialogComponent, {
@@ -68,15 +91,13 @@ export class RecipesListComponent implements OnInit {
       console.log('Dialog closed', res);
     });
   }
-  getRecipes(name?: string) {
+  getRecipes(name?: string, tag?: string,category?:string): void {
     this.recipeService
-      .getRecipes(10, 1, name)
-      .pipe(take(1))
+      .getRecipes(10, 1, name, tag,category)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((response: PaginatedFoodResponse) => {
         this.dataSource = response.data;
-        if (response.data.length === 0) {
-          this.noData = true;
-        }
+        this.noData = response.data.length === 0;
       });
   }
   getLookUp() {
@@ -91,11 +112,7 @@ export class RecipesListComponent implements OnInit {
     this._sharedService.getCategoryList(1, 10).subscribe({
       next: (res: PaginatedCategoryResponse) => {
         console.log('Category List API Response:', res);
-        if (Array.isArray(res)) {
-          this.categoryList = res; // ✅ Assign if it's an array
-        } else {
-          this.categoryList = res.data || []; // ✅ Extract from paginated response
-        }
+        this.categoryList = res.data || [];
       },
       error: (err) => {
         this._toasterService.error('Error fetching category list');
