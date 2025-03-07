@@ -4,8 +4,12 @@
   padding: 2rem 3rem;
   border-radius: 10px;
   z-index: 999;
+  width: 100%; /* Add width */
+  max-width: 500px; /* Add max-width */
+  margin: auto; /* Center horizontally */
   @media screen and (max-width: 991px) {
     padding: 0.8rem 2rem;
+    margin: 2rem auto; /* Add margin for better spacing on mobile */
   }
   h2 {
     font-weight: 700;

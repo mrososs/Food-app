@@ -10,19 +10,16 @@ import {
 import { RecipeService } from '../../services/recipe.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
-  combineLatest,
   debounceTime,
   distinctUntilChanged,
   merge,
   Subject,
-  take,
   takeUntil,
 } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDialogComponent } from '../../../../../shared/components/add-dialog/add-dialog.component';
 import { SharedService } from '../../../../../shared/services/shared.service';
 import { ITagList } from '../../../../../core/interfaces/tags';
-import { ToastrService } from 'ngx-toastr';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
@@ -59,7 +56,6 @@ export class RecipesListComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
     public dialog: MatDialog,
-    private _toasterService: ToastrService,
     private _sharedService: SharedService
   ) {}
   ngOnInit(): void {
