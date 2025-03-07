@@ -10,12 +10,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AddDialogComponent } from './components/add-dialog/add-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 @NgModule({
   declarations: [AddDialogComponent],
   imports: [
     CommonModule,
+    MatPaginatorModule,
     MatMenuModule,
     MatDialogModule,
     MatButtonModule,
@@ -34,6 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSelectModule,
     MatInputModule,
     MatFormFieldModule,
+    MatPaginatorModule,
     MatMenuModule,
     MatDialogModule,
     MatButtonModule,

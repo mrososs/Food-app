@@ -23,6 +23,7 @@ import { AddDialogComponent } from '../../../../../shared/components/add-dialog/
 import { SharedService } from '../../../../../shared/services/shared.service';
 import { ITagList } from '../../../../../core/interfaces/tags';
 import { ToastrService } from 'ngx-toastr';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-recipes-list',
@@ -40,11 +41,18 @@ export class RecipesListComponent implements OnInit {
     'category',
     'actions',
   ];
+  totalNumberOfRecords!: number;
+
   tagList!: ITagList[];
   categoryList!: ICategoryList[];
   dataSource: FoodItem[] = [];
   noData = false;
   searchForm!: FormGroup;
+  pagesNumber!: number;
+  intialPage = {
+    pageNumber: 0,
+    pageSize: 10,
+  };
   private destroy$ = new Subject<void>(); // 🚀 Unsubscribe handler
 
   fb = inject(FormBuilder);
@@ -73,7 +81,7 @@ export class RecipesListComponent implements OnInit {
         const name = this.searchForm.get('name')!.value;
         const tag = this.searchForm.get('tag')!.value;
         const category = this.searchForm.get('category')!.value;
-        this.getRecipes(name, tag,category); // ✅ Call API with updated values
+        this.getRecipes(name, tag, category); // ✅ Call API with updated values
       });
 
     this.getRecipes();
@@ -91,12 +99,31 @@ export class RecipesListComponent implements OnInit {
       console.log('Dialog closed', res);
     });
   }
-  getRecipes(name?: string, tag?: string,category?:string): void {
+  onPageChange(event: PageEvent): void {
+    this.intialPage.pageNumber = event.pageIndex;
+    this.intialPage.pageSize = event.pageSize;
+    this.getRecipes(
+      this.searchForm.get('name')!.value,
+      this.searchForm.get('tag')!.value,
+      this.searchForm.get('category')!.value
+    );
+  }
+
+  getRecipes(name?: string, tag?: string, category?: string): void {
     this.recipeService
-      .getRecipes(10, 1, name, tag,category)
+      .getRecipes(
+        this.intialPage.pageSize,
+        this.intialPage.pageNumber,
+        name,
+        tag,
+        category
+      )
       .pipe(takeUntil(this.destroy$))
       .subscribe((response: PaginatedFoodResponse) => {
         this.dataSource = response.data;
+        this.pagesNumber = response.totalNumberOfPages;
+        this.totalNumberOfRecords = response.totalNumberOfRecords;
+
         this.noData = response.data.length === 0;
       });
   }
@@ -106,7 +133,7 @@ export class RecipesListComponent implements OnInit {
         this.tagList = res;
       },
       error: (err) => {
-        this._toasterService.error('error in tag List');
+        // this._toasterService.error('error in tag List');
       },
     });
     this._sharedService.getCategoryList(1, 10).subscribe({
@@ -115,7 +142,7 @@ export class RecipesListComponent implements OnInit {
         this.categoryList = res.data || [];
       },
       error: (err) => {
-        this._toasterService.error('Error fetching category list');
+        // this._toasterService.error('Error fetching category list');
       },
     });
   }
