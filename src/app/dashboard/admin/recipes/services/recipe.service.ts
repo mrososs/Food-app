@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginatedFoodResponse } from '../../../../core/interfaces/recipe';
@@ -8,25 +8,23 @@ import { PaginatedFoodResponse } from '../../../../core/interfaces/recipe';
 })
 export class RecipeService {
   constructor(private _http: HttpClient) {}
-  getRecipes(
-    pageSize: number,
-    pageNumber: number,
-    name?: string,
-    tag?:string,
-    category?:string
-  ): Observable<PaginatedFoodResponse> {
-    let url = `/Recipe/?pageSize=${pageSize}&pageNumber=${pageNumber}`;
+  getRecipes(paramsData: any): Observable<PaginatedFoodResponse> {
+    let url = `/Recipe/`;
 
-    if (name) {
-      url += `&name=${encodeURIComponent(name)}`;
+    let params = new HttpParams()
+      .set('pageSize', paramsData.pageSize)
+      .set('pageNumber', paramsData.pageNumber);
+
+    if (paramsData.name) {
+      params = params.set('name', paramsData.name);
     }
-    if(tag){
-      url+=`&tagId=${encodeURIComponent(tag)}`;
+    if (paramsData.tagId) {
+      params = params.set('tagId', paramsData.tagId);
     }
-    if(category){
-      url+=`&categoryId=${encodeURIComponent(category)}`;
+    if (paramsData.categoryId) {
+      params = params.set('categoryId', paramsData.categoryId);
     }
 
-    return this._http.get<PaginatedFoodResponse>(url);
+    return this._http.get<PaginatedFoodResponse>(url, { params });
   }
 }

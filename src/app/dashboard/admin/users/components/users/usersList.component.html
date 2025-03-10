@@ -2,7 +2,7 @@
   <div class="recipes__list">
     <div class="welcome d-flex justify-content-between align-items-center">
       <div>
-        <h1>Recipes <span>Items !</span></h1>
+        <h1>Users <span>List !</span></h1>
         <p>
           You can now add your items that any user can order it from the
           Application and you can edit
@@ -19,51 +19,19 @@
         <h1>Recipe Table Details</h1>
         <p>You can check all details</p>
       </div>
-      <div class="button">
-        <button class="btn btn-primary" (click)="openAddDialog()">
-          Add New Item
-        </button>
-      </div>
     </div>
     <div class="search__bar">
       <div>
-        <form class="row align-items-center" [formGroup]="searchForm">
-          <mat-form-field
-            class="col-md-6 custom-form-field"
-            appearance="outline"
-          >
-            <mat-label class="test2">Search Here ...</mat-label>
-            <input matInput placeholder="Search" formControlName="name" />
-          </mat-form-field>
-          <mat-form-field class="col-md-2" appearance="outline">
-            <mat-label>Tag</mat-label>
-            <mat-select formControlName="tag">
-              <mat-option *ngFor="let tag of tagList" [value]="tag.id"
-                >{{ tag.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="col-md-2" appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category" multiple="true">
-              <mat-option
-                *ngFor="let category of categoryList"
-                [value]="category.id"
-                >{{ category.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </form>
         <div class="mt-5 table mb-5">
           <mat-table #table [dataSource]="dataSource">
             <!--- Note that these columns can be defined in any order.
                   The actual rendered columns are set as a property on the row definition" -->
 
             <!-- ItemName Column -->
-            <ng-container matColumnDef="ItemName">
-              <mat-header-cell *matHeaderCellDef> ItemName </mat-header-cell>
+            <ng-container matColumnDef="Name">
+              <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.name }}
+                {{ element.userName }}
               </mat-cell>
             </ng-container>
 
@@ -72,43 +40,51 @@
               <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 <img
+                  *ngIf="element.imagePath"
                   [src]="getImageUrl(element.imagePath)"
                   alt="{{ element.name }}"
-                  width="100"
-                  height="100"
+                  width="50"
+                  height="50"
                 />
               </mat-cell>
             </ng-container>
 
             <!-- Price Column -->
-            <ng-container matColumnDef="Price">
-              <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+            <ng-container matColumnDef="email">
+              <mat-header-cell *matHeaderCellDef> email </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.price | currency }}
+                {{ element.email }}
               </mat-cell>
             </ng-container>
 
             <!-- Description Column -->
-            <ng-container matColumnDef="Description">
-              <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <ng-container matColumnDef="country">
+              <mat-header-cell *matHeaderCellDef> country </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.description }}
+                {{ element.country }}
               </mat-cell>
             </ng-container>
             <!-- tag Column -->
-            <ng-container matColumnDef="tag">
-              <mat-header-cell *matHeaderCellDef> tag </mat-header-cell>
+            <ng-container matColumnDef="phoneNumber">
+              <mat-header-cell *matHeaderCellDef> phoneNumber </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.tag?.name }}
+                {{ element.phoneNumber }}
+              </mat-cell>
+            </ng-container>
+            <!-- tag Column -->
+            <ng-container matColumnDef="creationDate">
+              <mat-header-cell *matHeaderCellDef>
+                creationDate
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.creationDate | date : "dd/MM/yyyy" }}
               </mat-cell>
             </ng-container>
             <!-- category Column -->
-            <ng-container matColumnDef="category">
-              <mat-header-cell *matHeaderCellDef> category </mat-header-cell>
+            <ng-container matColumnDef="group">
+              <mat-header-cell *matHeaderCellDef> group </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                <span *ngFor="let cat of element.category"
-                  >{{ cat.name }}
-                </span>
+                {{ element.group.name }}
               </mat-cell>
             </ng-container>
             <!-- category Column -->
@@ -147,7 +123,7 @@
         <div *ngIf="!noData" class="d-flex justify-content-end align-items-end">
           <mat-paginator
             [length]="totalNumberOfRecords"
-            [pageSize]="intialPage.pageSize"
+            [pageSize]="paramsData.pageSize"
             [pageSizeOptions]="[5, 10, 25, 100]"
             (page)="onPageChange($event)"
           >

@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AddDialogComponent } from './components/add-dialog/add-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
 
@@ -26,11 +27,13 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatFormFieldModule,
     MatIcon,
     MatSelectModule,
+    MatTooltipModule,
     MatInputModule,
     MatTableModule,
   ],
   exports: [
     MatIcon,
+    MatTooltipModule,
     AddDialogComponent,
     MatTableModule,
     MatSelectModule,

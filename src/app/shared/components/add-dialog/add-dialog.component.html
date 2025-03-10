@@ -1,9 +1,43 @@
 <h2 mat-dialog-title>Add New Item</h2>
 <mat-dialog-content>
-  <form>
-    
+  <form class="row mt-2" [formGroup]="addRecipeForm">
+    <mat-form-field appearance="outline" class="col-12 custom-form-field">
+      <mat-label class="test2">Name</mat-label>
+      <input matInput placeholder="name Recipe" formControlName="name" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-12 custom-form-field">
+      <mat-label class="test2">Description </mat-label>
+      <input matInput placeholder="Description" formControlName="description" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-12 custom-form-field">
+      <mat-label class="test2">Price </mat-label>
+      <input matInput placeholder="Price" formControlName="price" />
+    </mat-form-field>
+    <mat-form-field class="col-12 custom-form-field" appearance="outline">
+      <mat-label>Tag</mat-label>
+      <mat-select formControlName="tag">
+        <mat-option *ngFor="let tag of tagList" [value]="tag.id"
+          >{{ tag.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="col-12" appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoriesIds" multiple>
+        <mat-option *ngFor="let category of categoryList" [value]="category.id"
+          >{{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="closeDialog()">Close</button>
+  <button
+    class="btn-primary"
+    (click)="submitRecipe()"
+    [disabled]="addRecipeForm.invalid"
+  >
+    Save
+  </button>
 </mat-dialog-actions>

@@ -1,8 +1,10 @@
 <div class="layout">
-  <div class="sidebar-container">
-    <app-sidebar></app-sidebar>
+  <div class="sidebar-container" [class.collapsed]="sidebarCollapsed">
+    <app-sidebar
+      (collapsedChange)="onSidebarCollapsedChange($event)"
+    ></app-sidebar>
   </div>
-  <div class="main-content">
+  <div class="main-content" [class.sidebar-collapsed]="sidebarCollapsed">
     <app-navbar></app-navbar>
     <div class="router-outlet-container">
       <router-outlet></router-outlet>

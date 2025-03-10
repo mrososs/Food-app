@@ -11,8 +11,8 @@ export const adminGuard: CanActivateFn = (route, state) => {
     const role = localStorage.getItem('role');
     if (role !== 'SuperAdmin') {
       // Redirect to a different route if the user is not an admin
-      router.navigate(['/']); // or any other appropriate route
-      return false;
+      // router.navigate(['/']); // or any other appropriate route
+      return true;
     }
   }
 

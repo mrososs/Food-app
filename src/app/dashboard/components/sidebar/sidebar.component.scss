@@ -10,20 +10,45 @@
   border-top-right-radius: 58px;
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
+  position: relative;
 
-  .logo-container {
+  .logo {
+    width: 200px;
+    height: 100px;
+    transition: all 0.3s ease;
+
+    @media screen and (max-width: 768px) {
+      width: 150px;
+      height: 75px;
+    }
+  }
+
+  .toggle-btn {
+    position: absolute;
+    top: 20px;
+    right: -15px;
+    background: #1f263e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 1rem 0;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 
-    img {
-      width: 200px;
-      height: 100px;
-      @media screen and (max-width: 768px) {
-        width: 150px;
-        height: 75px;
-      }
+    &:hover {
+      background: #2c3e50;
+    }
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
     }
   }
 
@@ -58,16 +83,16 @@
         mat-icon {
           fill: white;
           color: #ffffff;
+          min-width: 24px; // Ensure icon has consistent width
         }
         h4 {
-          @media screen and (max-width: 768px) {
-            display: none;
-          }
           color: #ffffff;
           margin-top: 0.6rem;
           font-weight: 500;
           font-size: 13px;
           margin-left: 1rem;
+          transition: opacity 0.3s ease;
+          white-space: nowrap;
         }
         display: flex;
         align-items: center;
@@ -77,8 +102,51 @@
   }
 }
 
+// Collapsed state styles
+section.collapsed {
+  .side__bar {
+    width: 70px;
+
+    .logo {
+      height: 40px;
+      object-fit: contain;
+    }
+
+    ul li a h4 {
+      opacity: 0;
+      width: 0;
+      margin-left: 0;
+    }
+
+    ul li a {
+      justify-content: center;
+      padding: 10px 0;
+    }
+  }
+}
+
 @media screen and (max-width: 768px) {
   .side__bar {
     border-top-right-radius: 0;
+    width: 70px;
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    ul li a h4 {
+      display: none;
+    }
+
+    ul li a {
+      justify-content: center;
+      padding: 10px 0;
+    }
+
+    .toggle-btn {
+      display: none; // Hide toggle button on mobile
+    }
   }
 }

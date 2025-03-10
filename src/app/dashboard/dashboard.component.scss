@@ -11,6 +11,12 @@
   left: 0;
   height: 100vh;
   overflow-y: auto;
+  transition: all 0.3s ease;
+  
+  &.collapsed {
+    width: 70px;
+    max-width: 70px;
+  }
 }
 
 .main-content {
@@ -19,6 +25,12 @@
   width: 83.333333%; // Equivalent to col-10
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
+  
+  &.sidebar-collapsed {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
 }
 
 .router-outlet-container {
@@ -29,11 +41,12 @@
 
 @media screen and (max-width: 768px) {
   .sidebar-container {
-    width: 80px; // Adjust for mobile view
+    width: 70px;
+    max-width: 70px;
   }
 
   .main-content {
-    margin-left: 80px;
-    width: calc(100% - 80px);
+    margin-left: 70px;
+    width: calc(100% - 70px);
   }
 }

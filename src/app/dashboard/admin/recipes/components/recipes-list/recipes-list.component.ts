@@ -46,6 +46,13 @@ export class RecipesListComponent implements OnInit {
   noData = false;
   searchForm!: FormGroup;
   pagesNumber!: number;
+  paramsData = {
+    pageSize: 10,
+    pageNumber: 0,
+    name: '',
+    tagId: undefined,
+    categoryId: undefined,
+  };
   intialPage = {
     pageNumber: 0,
     pageSize: 10,
@@ -77,52 +84,66 @@ export class RecipesListComponent implements OnInit {
         const name = this.searchForm.get('name')!.value;
         const tag = this.searchForm.get('tag')!.value;
         const category = this.searchForm.get('category')!.value;
-        this.getRecipes(name, tag, category); // ✅ Call API with updated values
+        this.paramsData.tagId = tag;
+        this.getRecipes(); // ✅ Call API with updated values
       });
 
     this.getRecipes();
   }
+  getImageUrl(imagePath: string): string {
+    const baseUrl = 'https://upskilling-egypt.com:3006/'; // ✅ تأكد أن هذا هو الـ base URL الصحيح
+    return `${baseUrl}${imagePath}`;
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete(); // ✅ Clean up subscriptions
   }
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddDialogComponent, {
-      width: '400px',
-      data: {},
+      width: '600px',
+      data: {
+        tagList: this.tagList,
+        categoryList: this.categoryList,
+      },
     });
+
     dialogRef.afterClosed().subscribe((res) => {
-      console.log('Dialog closed', res);
+      if (res) {
+        // ✅ Update paramsData before calling getRecipes
+        this.paramsData.name = this.searchForm.get('name')!.value || '';
+        this.paramsData.tagId = this.searchForm.get('tag')!.value || undefined;
+        this.paramsData.categoryId =
+          this.searchForm.get('category')!.value || undefined;
+
+        this.getRecipes();
+      }
     });
   }
+
   onPageChange(event: PageEvent): void {
     this.intialPage.pageNumber = event.pageIndex;
     this.intialPage.pageSize = event.pageSize;
-    this.getRecipes(
-      this.searchForm.get('name')!.value,
-      this.searchForm.get('tag')!.value,
-      this.searchForm.get('category')!.value
-    );
+    this.paramsData.name = this.searchForm.get('name')!.value || '';
+    this.paramsData.tagId = this.searchForm.get('tag')!.value || undefined;
+    this.paramsData.categoryId =
+      this.searchForm.get('category')!.value || undefined;
+
+    this.getRecipes();
   }
 
-  getRecipes(name?: string, tag?: string, category?: string): void {
+  getRecipes(): void {
     this.recipeService
-      .getRecipes(
-        this.intialPage.pageSize,
-        this.intialPage.pageNumber,
-        name,
-        tag,
-        category
-      )
+      .getRecipes(this.paramsData) // ✅ Pass paramsData object
       .pipe(takeUntil(this.destroy$))
       .subscribe((response: PaginatedFoodResponse) => {
         this.dataSource = response.data;
         this.pagesNumber = response.totalNumberOfPages;
         this.totalNumberOfRecords = response.totalNumberOfRecords;
-
         this.noData = response.data.length === 0;
       });
   }
+
   getLookUp() {
     this._sharedService.getTagList().subscribe({
       next: (res: ITagList[]) => {

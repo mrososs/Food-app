@@ -25,4 +25,28 @@ export class SharedService {
       `https://upskilling-egypt.com:3006/api/v1/Tag`
     );
   }
+  addRecipe(data: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('price', data.price);
+    formData.append('tagId', data.tag);
+    
+    // Append categoriesIds as an array
+    data.categoriesIds.forEach((id: number) => {
+      formData.append('categoriesIds', id.toString());
+    });
+  
+    // Append the image file (if available)
+    if (data.image) {
+      formData.append('recipeImage', data.image);
+    }
+  
+    return this._http.post<any>(
+      `https://upskilling-egypt.com:3006/api/v1/Recipe`,
+      formData
+    );
+  }
+  
+
 }
