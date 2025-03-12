@@ -17,7 +17,16 @@ const routes: Routes = [
       },
     ],
   },
-  { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
+  {
+    path: 'users',
+    loadChildren: () =>
+      import('./users/users.module').then((m) => m.UsersModule),
+  },
+  {
+    path: 'categories',
+    loadChildren: () =>
+      import('./categories/categories.module').then((m) => m.CategoriesModule),
+  },
 ];
 
 @NgModule({

@@ -11,17 +11,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { AddDialogComponent } from './components/add-dialog/add-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatPaginatorModule} from '@angular/material/paginator';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
-  declarations: [AddDialogComponent],
+  declarations: [AddDialogComponent, SpinnerComponent],
   imports: [
     CommonModule,
     MatPaginatorModule,
     MatMenuModule,
     MatDialogModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
     MatFormFieldModule,
@@ -35,6 +37,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatIcon,
     MatTooltipModule,
     AddDialogComponent,
+    SpinnerComponent,
     MatTableModule,
     MatSelectModule,
     MatInputModule,

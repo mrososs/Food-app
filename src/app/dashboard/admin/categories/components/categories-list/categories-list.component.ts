@@ -1,36 +1,30 @@
 import { Component, inject, OnInit } from '@angular/core';
-
-import { FormGroup } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-
 import { PageEvent } from '@angular/material/paginator';
-import { UsersListService } from '../../services/usersList.service';
+import { Subject, takeUntil } from 'rxjs';
 import { User, UserResponse } from '../../../../../core/interfaces/users';
+import { UsersListService } from '../../../users/services/usersList.service';
+import { CategoriesService } from '../../services/categories.service';
+import {
+  ICategoryList,
+  PaginatedCategoryResponse,
+} from '../../../../../core/interfaces/category';
+
 @Component({
-  selector: 'app-users',
-  templateUrl: './usersList.component.html',
-  styleUrls: ['./usersList.component.scss'],
+  selector: 'app-categories-list',
+  templateUrl: './categories-list.component.html',
+  styleUrls: ['./categories-list.component.scss'],
 })
-export class UsersListComponent implements OnInit {
-  displayedColumns = [
-    'Name',
-    'email',
-    'country',
-    'phoneNumber',
-    'Image',
-    'group',
-    'creationDate',
-    'actions',
-  ];
-  usersService = inject(UsersListService);
-  users$ = this.usersService.users$;
+export class CategoriesListComponent implements OnInit {
+  displayedColumns = ['Name', 'CreationDate', 'ModificationDate', 'actions'];
+  categoriesService = inject(CategoriesService);
+  categories$ = this.categoriesService.categoriesList$;
   paramsData = {
     pageSize: 10,
     pageNumber: 0,
   };
   totalNumberOfRecords!: number;
-  dataSource: User[] = [];
+  dataSource: ICategoryList[] = [];
   noData = false;
   pagesNumber!: number;
 
@@ -41,35 +35,34 @@ export class UsersListComponent implements OnInit {
     this.getUsersList();
     this.subscribeToUsers();
   }
-  getImageUrl(imagePath: string): string {
-    const baseUrl = 'https://upskilling-egypt.com:3006/'; // ✅ تأكد أن هذا هو الـ base URL الصحيح
-    return `${baseUrl}${imagePath}`;
-  }
+
   getUsersList(): void {
-    this.usersService.getUsersList(
+    this.categoriesService.getCategoriesList(
       this.paramsData.pageNumber,
       this.paramsData.pageSize
     );
   }
   subscribeToUsers(): void {
-    this.usersService.users$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response: UserResponse | null) => {
-       
-        if (response && response.data) {
+    this.categories$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (response: PaginatedCategoryResponse | null) => {
+        if (response?.data?.length) {
           this.dataSource = response.data;
           this.totalNumberOfRecords = response.totalNumberOfRecords;
           this.pagesNumber = response.totalNumberOfPages;
-          this.noData = response.data.length === 0;
+          this.noData = false;
         } else {
           this.noData = true;
+          this.dataSource = [];
         }
       },
       error: (err) => {
-        console.error('Error fetching users:', err);
+        console.error('Error fetching categories:', err);
         this.noData = true;
+        this.dataSource = [];
       },
     });
   }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete(); // ✅ Clean up subscriptions

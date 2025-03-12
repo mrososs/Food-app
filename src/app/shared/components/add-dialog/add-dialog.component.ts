@@ -36,10 +36,7 @@ export class AddDialogComponent implements OnInit {
     this.categoryList = data.categoryList || [];
   }
 
-  ngOnInit() {
-    // this.getTagList();
-    // this.getCategoryList();
-  }
+  ngOnInit() {}
   submitRecipe() {
     if (this.addRecipeForm.valid) {
       this._sharedService.addRecipe(this.addRecipeForm.value).subscribe({

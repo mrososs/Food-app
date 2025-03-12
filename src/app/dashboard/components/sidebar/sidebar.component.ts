@@ -42,7 +42,7 @@ export class SidebarComponent implements OnInit {
     {
       name: 'Categories',
       icon: 'event_note',
-      route: '/dashboard/Categories',
+      route: 'admin/categories',
       isAdmin: true,
     },
     {

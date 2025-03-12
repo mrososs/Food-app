@@ -10,7 +10,6 @@ export class UsersListService {
   private userList = new BehaviorSubject<UserResponse | null>(null);
   users$ = this.userList.asObservable();
   constructor(private _http: HttpClient) {}
-  
 
   getUsersList(pageNumber: number, pageSize: number): void {
     this._http

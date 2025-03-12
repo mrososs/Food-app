@@ -19,11 +19,13 @@ import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './shared/shared.module';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { apiInterceptor } from './core/interceptors/api.interceptor';
+import { spinnerInterceptor } from './core/interceptors/spinner.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    SharedModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -36,11 +38,14 @@ import { apiInterceptor } from './core/interceptors/api.interceptor';
     SharedModule,
   ],
   providers: [
+    provideHttpClient(
+      withInterceptors([tokenInterceptor, apiInterceptor, spinnerInterceptor]),
+      withFetch()
+    ),
     provideClientHydration(),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([tokenInterceptor]),withFetch() ),
-    provideHttpClient(withInterceptors([apiInterceptor]),withFetch())
   ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -2,7 +2,7 @@
   <div class="recipes__list">
     <div class="welcome d-flex justify-content-between align-items-center">
       <div>
-        <h1>Users <span>List !</span></h1>
+        <h1>Categories <span>List !</span></h1>
         <p>
           You can now add your items that any user can order it from the
           Application and you can edit
@@ -15,9 +15,14 @@
     <div
       class="d-flex justify-content-between align-items-center recipe__Section"
     >
-      <div class="text mt-4">
-        <h1>Users Table Details</h1>
-        <p>You can check all details</p>
+      <div class="text mt-4 d-flex">
+        <div>
+          <h1>Categories Table Details</h1>
+          <p>You can check all details</p>
+        </div>
+      </div>
+      <div class="button">
+        <button class="btn btn-primary">Add New Item</button>
       </div>
     </div>
     <div class="search__bar">
@@ -31,63 +36,30 @@
             <ng-container matColumnDef="Name">
               <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.userName }}
+                {{ element.name }}
               </mat-cell>
             </ng-container>
 
             <!-- Image Column -->
-            <ng-container matColumnDef="Image">
-              <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <img
-                  *ngIf="element.imagePath"
-                  [src]="getImageUrl(element.imagePath)"
-                  alt="{{ element.name }}"
-                  width="50"
-                  height="50"
-                />
-              </mat-cell>
-            </ng-container>
-
-            <!-- Price Column -->
-            <ng-container matColumnDef="email">
-              <mat-header-cell *matHeaderCellDef> email </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element.email }}
-              </mat-cell>
-            </ng-container>
-
-            <!-- Description Column -->
-            <ng-container matColumnDef="country">
-              <mat-header-cell *matHeaderCellDef> country </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element.country }}
-              </mat-cell>
-            </ng-container>
-            <!-- tag Column -->
-            <ng-container matColumnDef="phoneNumber">
-              <mat-header-cell *matHeaderCellDef> phoneNumber </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element.phoneNumber }}
-              </mat-cell>
-            </ng-container>
-            <!-- tag Column -->
-            <ng-container matColumnDef="creationDate">
+            <ng-container matColumnDef="CreationDate">
               <mat-header-cell *matHeaderCellDef>
-                creationDate
+                CreationDate
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.creationDate | date : "dd/MM/yyyy" }}
               </mat-cell>
             </ng-container>
-            <!-- category Column -->
-            <ng-container matColumnDef="group">
-              <mat-header-cell *matHeaderCellDef> group </mat-header-cell>
+
+            <!-- Price Column -->
+            <ng-container matColumnDef="ModificationDate">
+              <mat-header-cell *matHeaderCellDef>
+                ModificationDate
+              </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.group.name }}
+                {{ element.modificationDate | date : "dd/MM/yyyy" }}
               </mat-cell>
             </ng-container>
-            <!-- category Column -->
+
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
               <mat-cell *matCellDef="let element">
