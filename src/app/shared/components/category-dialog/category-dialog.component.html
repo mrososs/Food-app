@@ -1,0 +1,26 @@
+<div class="dialog-container">
+  <h2 class="dialog-title">{{ title }}</h2>
+  <button class="close-btn" (click)="close()">✖</button>
+
+  <form [formGroup]="categoryForm" *ngIf="!isDeleteMode" (ngSubmit)="save()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Category Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <div class="button-group">
+      <button mat-button class="cancel-btn" (click)="close()">Cancel</button>
+      <button mat-flat-button color="primary" type="submit">
+        {{ data.mode === "edit" ? "Update" : "Save" }}
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="isDeleteMode" class="delete-confirmation">
+    <p>Are you sure you want to delete this category?</p>
+    <div class="button-group">
+      <button mat-button class="cancel-btn" (click)="close()">Cancel</button>
+      <button mat-flat-button color="warn" (click)="save()">Delete</button>
+    </div>
+  </div>
+</div>

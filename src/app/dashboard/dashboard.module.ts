@@ -7,9 +7,16 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '../shared/shared.module';
+import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 
 @NgModule({
-  declarations: [DashboardComponent, NavbarComponent, SidebarComponent,HomeComponent],
-  imports: [CommonModule, DashboardRoutingModule,MatIconModule,SharedModule],
+  declarations: [
+    DashboardComponent,
+    NavbarComponent,
+    SidebarComponent,
+    HomeComponent,
+    ProfilePageComponent,
+  ],
+  imports: [CommonModule, DashboardRoutingModule, MatIconModule, SharedModule],
 })
 export class DashboardModule {}

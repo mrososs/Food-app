@@ -1,0 +1,279 @@
+.profile-section {
+  .btn-primary {
+    background: #4aa35a;
+
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 1rem;
+  }
+  padding: 2rem;
+  min-height: 80vh;
+  background-color: #f8f9fa;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .profile-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #1f263e;
+
+    .profile-indicator {
+      width: 4px;
+      height: 24px;
+      background-color: #4e5bf2;
+      border-radius: 2px;
+    }
+  }
+
+  .profile-content {
+    display: flex;
+    gap: 3rem;
+    padding: 3rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .profile-left {
+      flex-shrink: 0;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .profile-image-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      background: #f8f9fa;
+      border-radius: 8px;
+      overflow: hidden;
+
+      .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .camera-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: white;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        mat-icon {
+          color: #4e5bf2;
+        }
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      .btn-outline {
+        flex: 1;
+        padding: 0.75rem;
+        border: 1px dashed #4e5bf2;
+        border-radius: 6px;
+        background: transparent;
+        color: #4e5bf2;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba(78, 91, 242, 0.05);
+        }
+      }
+    }
+
+    .profile-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      form {
+        width: 100%;
+
+        .row {
+          margin: 0;
+          width: 100%;
+        }
+
+        .col-12 {
+          padding: 0;
+          margin-bottom: 1rem;
+        }
+      }
+
+      ::ng-deep {
+        mat-form-field {
+          width: 100%;
+          display: block;
+
+          .mat-mdc-form-field-wrapper {
+            padding-bottom: 0;
+          }
+
+          .mat-mdc-text-field-wrapper {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+          }
+
+          .mat-mdc-form-field-flex {
+            padding: 0 12px;
+            height: 56px;
+          }
+
+          .mat-mdc-input-element {
+            color: #1f263e;
+            font-size: 1rem;
+          }
+
+          .mat-mdc-floating-label {
+            color: #6c757d;
+          }
+
+          .mat-mdc-form-field-subscript-wrapper {
+            display: none;
+          }
+
+          .mdc-notched-outline__leading,
+          .mdc-notched-outline__notch,
+          .mdc-notched-outline__trailing {
+            border-color: #e0e0e0;
+          }
+
+          .mat-mdc-form-field-infix {
+            padding-top: 16px;
+            padding-bottom: 16px;
+          }
+        }
+      }
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        label {
+          color: #6c757d;
+          font-size: 0.875rem;
+        }
+
+        span {
+          color: #1f263e;
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .edit-profile-btn {
+      align-self: flex-start;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #4e5bf2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 1rem;
+
+      &:hover {
+        background: darken(#4e5bf2, 5%);
+      }
+
+      mat-icon {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .profile-section {
+    padding: 1rem;
+
+    .profile-content {
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 2rem;
+
+      .profile-left {
+        width: 100%;
+        max-width: 220px; // Reduced from 300px
+        margin: 0 auto;
+      }
+
+      .profile-image-container {
+        width: 220px; // Fixed width
+        height: 220px; // Fixed height to maintain square
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-section {
+    .profile-content {
+      padding: 1rem;
+
+      .profile-left {
+        max-width: 180px; // Further reduced for mobile
+      }
+
+      .profile-image-container {
+        width: 180px; // Smaller fixed width
+        height: 180px; // Maintain square aspect ratio
+      }
+    }
+
+    .edit-profile-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+// For very small screens
+@media (max-width: 360px) {
+  .profile-section {
+    .profile-content {
+      .profile-left {
+        max-width: 150px; // Even smaller for very small screens
+      }
+
+      .profile-image-container {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  }
+}

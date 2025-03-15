@@ -9,6 +9,7 @@ import {
   ICategoryList,
   PaginatedCategoryResponse,
 } from '../../../../../core/interfaces/category';
+import { CategoryDialogComponent } from '../../../../../shared/components/category-dialog/category-dialog.component';
 
 @Component({
   selector: 'app-categories-list',
@@ -41,6 +42,15 @@ export class CategoriesListComponent implements OnInit {
       this.paramsData.pageNumber,
       this.paramsData.pageSize
     );
+  }
+  openDialog(mode: 'view'|'add' | 'edit' | 'delete', id?: number): void {
+      this.dialog.open(CategoryDialogComponent,{
+        width: '400px',
+        data: {
+          mode,
+          id,
+        },
+      })
   }
   subscribeToUsers(): void {
     this.categories$.pipe(takeUntil(this.destroy$)).subscribe({

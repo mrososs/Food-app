@@ -6,20 +6,40 @@
     </div>
   </div>
 
-  <div class="profile-container" [routerLink]="['/profilePage']">
-    <div class="profile-section">
-      <img
-        *ngIf="userCurrent?.imagePath"
-        [src]="getImageUser(userCurrent?.imagePath)"
-        alt="profile image"
-        class="profile-image"
-      />
+  <div class="profile-container">
+    <a>
+      <div class="profile-section">
+        <img
+          *ngIf="userCurrent?.imagePath"
+          [src]="getImageUser(userCurrent?.imagePath)"
+          [matTooltip]="userCurrent?.userName"
+          alt="profile image"
+          class="profile-image"
+        />
 
-      <span class="profile-text">{{ userCurrent?.userName }}</span>
-      <i class="fas fa-chevron-down dropdown-icon"></i>
-    </div>
+        <span class="profile-text">{{ userCurrent?.userName }}</span>
+        <button mat-icon-button [mat-menu-trigger-for]="userMenu">
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <button [routerLink]="['profilePage']" mat-menu-item>
+            <mat-icon>supervised_user_circle</mat-icon>
+            User Profile
+          </button>
+          <button mat-menu-item (click)="openChangePasswordDialog()">
+            <mat-icon>lock_open</mat-icon>
+            Change Password
+          </button>
+          <button mat-menu-item (click)="openLogoutDialog()">
+            <mat-icon>logout</mat-icon> Logout
+          </button>
+        </mat-menu>
+      </div>
+    </a>
+
     <div class="notification">
-      <i class="fas fa-bell notification-icon"></i>
+      <mat-icon>notifications</mat-icon>
+
       <!-- Add notification dot/badge if needed -->
       <span class="notification-badge"></span>
     </div>
@@ -27,6 +47,6 @@
 
   <!-- Mobile menu button -->
   <button class="mobile-menu-btn">
-    <i class="fas fa-bars"></i>
+    <mat-icon>arrow_drop_down</mat-icon>
   </button>
 </nav>

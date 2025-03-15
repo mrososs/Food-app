@@ -165,6 +165,20 @@ body {
     }
   }
 }
+// Global menu styling
+.mat-mdc-menu-panel {
+  background-color: white !important;
+}
+
+.mat-mdc-menu-item {
+  .mat-icon {
+    color: #009247 !important;
+  }
+
+  &:hover {
+    background-color: rgba(0, 146, 71, 0.1) !important;
+  }
+}
 
 // Update the actions column in your template to include icons
 

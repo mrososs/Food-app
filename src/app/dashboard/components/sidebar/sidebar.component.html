@@ -4,13 +4,23 @@
       class="d-flex align-items-center justify-content-center"
       (click)="toggleSidebar()"
     >
-      <img src="images\3.png" alt="logo" class="my-3 logo" />
+      <img src="images/3.png" alt="logo" class="my-3 logo" />
     </div>
 
     <div class="mt-5">
       <ul>
-        <li *ngFor="let item of menuList">
+        <li
+          *ngFor="let item of menuList"
+          (click)="
+            item.name === 'Logout'
+              ? openLogoutDialog()
+              : item.name === 'Change Password'
+              ? openChangePasswordDialog()
+              : null
+          "
+        >
           <a
+            *ngIf="item.route; else noRoute"
             [routerLink]="[item.route]"
             routerLinkActive="active"
             [matTooltip]="isCollapsed ? item.name : ''"
@@ -19,6 +29,16 @@
             <mat-icon>{{ item.icon }}</mat-icon>
             <h4>{{ item.name }}</h4>
           </a>
+          <ng-template #noRoute>
+            <a
+              href="javascript:void(0)"
+              [matTooltip]="isCollapsed ? item.name : ''"
+              [matTooltipPosition]="'right'"
+            >
+              <mat-icon>{{ item.icon }}</mat-icon>
+              <h4>{{ item.name }}</h4>
+            </a>
+          </ng-template>
         </li>
       </ul>
     </div>

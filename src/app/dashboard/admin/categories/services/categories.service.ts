@@ -23,4 +23,13 @@ export class CategoriesService {
       )
       .subscribe();
   }
+  getCategoryById(id: number|undefined): Observable<any> {
+    return this._http.get(`/Category/${id}`);
+  }
+  deleteCategory(id: number): Observable<any> {
+    return this._http.delete(`/Category/${id}`);
+  }
+  updateCategory(id: number, data: any): Observable<any> {
+    return this._http.put(`/Category/${id}`, data);
+  }
 }

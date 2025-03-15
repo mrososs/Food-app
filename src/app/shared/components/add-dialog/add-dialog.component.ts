@@ -5,7 +5,7 @@ import { SharedService } from '../../services/shared.service';
 import { ITagList } from '../../../core/interfaces/tags';
 import {
   ICategoryList,
-  PaginatedCategoryResponse,
+  
 } from '../../../core/interfaces/category';
 
 @Component({

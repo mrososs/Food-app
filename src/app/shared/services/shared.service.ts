@@ -6,6 +6,7 @@ import {
   ICategoryList,
   PaginatedCategoryResponse,
 } from '../../core/interfaces/category';
+import { IChangePassword } from '../../core/interfaces/password';
 
 @Injectable({
   providedIn: 'root',
@@ -31,22 +32,23 @@ export class SharedService {
     formData.append('description', data.description);
     formData.append('price', data.price);
     formData.append('tagId', data.tag);
-    
+
     // Append categoriesIds as an array
     data.categoriesIds.forEach((id: number) => {
       formData.append('categoriesIds', id.toString());
     });
-  
+
     // Append the image file (if available)
     if (data.image) {
       formData.append('recipeImage', data.image);
     }
-  
+
     return this._http.post<any>(
       `https://upskilling-egypt.com:3006/api/v1/Recipe`,
       formData
     );
   }
-  
-
+  changePassword(data: IChangePassword): Observable<IChangePassword> {
+    return this._http.put<IChangePassword>(`/Users/ChangePassword`, data);
+  }
 }

@@ -14,9 +14,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { LogoutDialogComponent } from './components/logout-dialog/logout-dialog.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { CategoryDialogComponent } from './components/category-dialog/category-dialog.component';
 
 @NgModule({
-  declarations: [AddDialogComponent, SpinnerComponent],
+  declarations: [
+    AddDialogComponent,
+    SpinnerComponent,
+    LogoutDialogComponent,
+    ChangePasswordComponent,
+    CategoryDialogComponent,
+  ],
   imports: [
     CommonModule,
     MatPaginatorModule,

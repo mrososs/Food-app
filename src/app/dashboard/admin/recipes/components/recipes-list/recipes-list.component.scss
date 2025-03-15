@@ -1,5 +1,11 @@
 .recipes__list {
-  
+  mat-menu {
+    .mat-mdc-menu-content,
+    .mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text {
+      background-color: red !important;
+    }
+  }
+
   .recipe__Section {
     h1 {
       font-weight: 500;

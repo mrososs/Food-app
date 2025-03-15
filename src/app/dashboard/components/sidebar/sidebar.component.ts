@@ -7,10 +7,13 @@ import {
   Output,
   PLATFORM_ID,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutDialogComponent } from '../../../shared/components/logout-dialog/logout-dialog.component';
+import { ChangePasswordComponent } from '../../../shared/components/change-password/change-password.component';
 interface Menu {
   name: string;
   icon: string;
-  route: string;
+  route?: string;
   isAdmin?: boolean;
 }
 @Component({
@@ -48,17 +51,16 @@ export class SidebarComponent implements OnInit {
     {
       name: 'Change Password',
       icon: 'lock_open',
-      route: '/dashboard/Change Password',
       isAdmin: true,
     },
     {
       name: 'Logout',
       icon: 'logout',
-      route: '/dashboard/Change Password',
+    
     },
   ];
   private platForm = inject(PLATFORM_ID);
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit() {
     if (isPlatformBrowser(this.platForm)) {
@@ -68,6 +70,16 @@ export class SidebarComponent implements OnInit {
         this.collapsedChange.emit(this.isCollapsed);
       }
     }
+  }
+  openLogoutDialog(): void {
+    this.dialog.open(LogoutDialogComponent, {
+      width: '400px', // Adjust width if needed
+    });
+  }
+  openChangePasswordDialog(): void {
+    this.dialog.open(ChangePasswordComponent, {
+      width: '500px',
+    });
   }
   toggleSidebar(): void {
     this.isCollapsed = !this.isCollapsed;
