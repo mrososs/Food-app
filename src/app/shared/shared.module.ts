@@ -17,6 +17,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { LogoutDialogComponent } from './components/logout-dialog/logout-dialog.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { CategoryDialogComponent } from './components/category-dialog/category-dialog.component';
+import { UploaderModule } from 'angular-uploader';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,8 @@ import { CategoryDialogComponent } from './components/category-dialog/category-d
     MatSelectModule,
     MatTooltipModule,
     MatInputModule,
+        UploaderModule,
+    
     MatTableModule,
   ],
   exports: [

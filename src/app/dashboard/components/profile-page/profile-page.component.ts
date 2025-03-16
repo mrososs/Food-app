@@ -21,14 +21,15 @@ export class ProfilePageComponent implements OnInit {
       this.userCurrent = user;
     });
     this.profileForm = this.fb.group({
-      userName: [{ value: '', disabled: true }],
-      email: [{ value: '', disabled: true }],
-      phoneNumber: [{ value: '', disabled: true }],
-      country: [{ value: '', disabled: true }],
-      imagePath: [{ value: '', disabled: true }],
+      userName: [{ value: '' }],
+      email: [{ value: '' }],
+      phoneNumber: [{ value: '' }],
+      country: [{ value: '' }],
+      imagePath: [{ value: '' }],
     });
   }
   ngOnInit(): void {
+    this.profileForm.disable();
     this._userService.user$.subscribe((user) => {
       this.userCurrent = user;
       this.imgPath = this.getImageUrl(user?.imagePath);

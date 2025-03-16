@@ -3,10 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedService } from '../../services/shared.service';
 import { ITagList } from '../../../core/interfaces/tags';
-import {
-  ICategoryList,
-  
-} from '../../../core/interfaces/category';
+import { ICategoryList } from '../../../core/interfaces/category';
+import { Uploader, UploadWidgetResult } from 'uploader';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-dialog',
@@ -18,11 +17,21 @@ export class AddDialogComponent implements OnInit {
   tagList: ITagList[] = []; // ✅ Define tagList property
   categoryList: ICategoryList[] = []; // ✅ Define categoryList property
   fb = inject(FormBuilder);
+   photoUploaded!: boolean;
+    uploadedFileUrl!: string | undefined;
+    options = {
+      apiKey: 'free', // Get API keys from: www.bytescale.com
+      multi: true,
+    };
+    uploader = Uploader({
+      apiKey: 'public_223k25RCEsHUoH4r68qogb3jr1LK', // <-- Get production-ready API keys from Bytescale
+    });
   constructor(
     public dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { tagList: ITagList[]; categoryList: ICategoryList[] },
-    private _sharedService: SharedService
+    private _sharedService: SharedService,
+    private toastr: ToastrService
   ) {
     this.addRecipeForm = this.fb.group({
       name: [''],
@@ -37,6 +46,13 @@ export class AddDialogComponent implements OnInit {
   }
 
   ngOnInit() {}
+  onComplete = (files: UploadWidgetResult[]) => {
+    this.uploadedFileUrl = files[0]?.fileUrl;
+    if (this.uploadedFileUrl) {
+      this.photoUploaded = true;
+    }
+    this.toastr.success('photo uploaded successfully');
+  };
   submitRecipe() {
     if (this.addRecipeForm.valid) {
       this._sharedService.addRecipe(this.addRecipeForm.value).subscribe({

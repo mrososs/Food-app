@@ -3,7 +3,7 @@
   <form class="row mt-2" [formGroup]="addRecipeForm">
     <mat-form-field appearance="outline" class="col-12 custom-form-field">
       <mat-label class="test2">Name</mat-label>
-      <input matInput placeholder="name Recipe" formControlName="name" />
+      <input matInput placeholder="Name Recipe" formControlName="name" />
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-12 custom-form-field">
       <mat-label class="test2">Description </mat-label>
@@ -29,6 +29,17 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <div class="col-12">
+      <!-- <button
+        uploadButton
+        class="btn btn-primary"
+        [uploadComplete]="onComplete"
+        [uploadOptions]="options"
+        [uploader]="uploader"
+      >
+        {{ photoUploaded ? "Change the Photo" : "Upload a Profile Photo..." }}
+      </button> -->
+    </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
