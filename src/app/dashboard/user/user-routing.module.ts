@@ -12,6 +12,7 @@ const routes: Routes = [
         (m) => m.UserRecipesModule
       ),
   },
+  { path: 'fav-recipes', loadChildren: () => import('./fav-recipes/fav-recipes.module').then(m => m.FavRecipesModule) },
 ];
 
 @NgModule({

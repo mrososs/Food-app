@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LogoutDialogComponent } from '../logout-dialog/logout-dialog.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-change-password',
@@ -12,7 +13,7 @@ import { SharedService } from '../../services/shared.service';
 export class ChangePasswordComponent {
   changePasswordForm!: FormGroup;
   fb = inject(FormBuilder);
-
+  router = inject(Router);
   constructor(
     public dialogRef: MatDialogRef<LogoutDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -29,6 +30,14 @@ export class ChangePasswordComponent {
     console.log('Changing password:', this.changePasswordForm.value);
     this._sharedService
       .changePassword(this.changePasswordForm.value)
-      .subscribe({});
+      .subscribe({
+        next: () => {
+          this.dialogRef.close();
+          localStorage.clear();
+        },
+        complete: () => {
+          this.router.navigate(['auth']);
+        },
+      });
   }
 }

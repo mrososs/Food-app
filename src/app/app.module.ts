@@ -31,7 +31,6 @@ import { spinnerInterceptor } from './core/interceptors/spinner.interceptor';
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
-      positionClass: 'toast-top-left',
       progressBar: true,
       closeButton: true,
     }),

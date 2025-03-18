@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { loginGuard, authGuard } from './core/guards/auth.guard';
+import { NoAuthComponent } from './shared/components/no-auth/no-auth.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
+
+  { path: 'noAuth', component: NoAuthComponent },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),

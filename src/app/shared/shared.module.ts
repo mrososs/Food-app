@@ -8,6 +8,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+
 import { AddDialogComponent } from './components/add-dialog/add-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -18,6 +20,8 @@ import { LogoutDialogComponent } from './components/logout-dialog/logout-dialog.
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { CategoryDialogComponent } from './components/category-dialog/category-dialog.component';
 import { UploaderModule } from 'angular-uploader';
+import { NoAuthComponent } from './components/no-auth/no-auth.component';
+import { ViewRecipeDialogComponent } from './components/view-recipe-dialog/view-recipe-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,11 +30,14 @@ import { UploaderModule } from 'angular-uploader';
     LogoutDialogComponent,
     ChangePasswordComponent,
     CategoryDialogComponent,
+    NoAuthComponent,
+    ViewRecipeDialogComponent,
   ],
   imports: [
     CommonModule,
     MatPaginatorModule,
     MatMenuModule,
+    MatCardModule,
     MatDialogModule,
     MatButtonModule,
     MatProgressSpinnerModule,
@@ -41,18 +48,20 @@ import { UploaderModule } from 'angular-uploader';
     MatSelectModule,
     MatTooltipModule,
     MatInputModule,
-        UploaderModule,
-    
+    UploaderModule,
+
     MatTableModule,
   ],
   exports: [
     MatIcon,
+    NoAuthComponent,
     MatTooltipModule,
     AddDialogComponent,
     SpinnerComponent,
     MatTableModule,
     MatSelectModule,
     MatInputModule,
+    MatCardModule,
     MatFormFieldModule,
     MatPaginatorModule,
     MatMenuModule,

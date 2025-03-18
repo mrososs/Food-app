@@ -12,9 +12,12 @@ import { LogoutDialogComponent } from '../../../shared/components/logout-dialog/
 })
 export class NavbarComponent implements OnInit {
   userCurrent: User | null = null;
+  isAdmin: boolean = false;
+
   constructor(private _userService: UsersService, private dialog: MatDialog) {
     this._userService.user$.subscribe((user) => {
       this.userCurrent = user;
+      this.isAdmin = this.userCurrent?.group.name != 'SystemUser';
     });
   }
 
@@ -27,10 +30,10 @@ export class NavbarComponent implements OnInit {
     });
   }
   openLogoutDialog(): void {
-      this.dialog.open(LogoutDialogComponent, {
-        width: '500px', // Adjust width if needed
-      });
-    }
+    this.dialog.open(LogoutDialogComponent, {
+      width: '500px', // Adjust width if needed
+    });
+  }
   getCurrentUser() {
     this._userService.getUser();
   }

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { ToastrService } from 'ngx-toastr';
 import {
   Subject,
   merge,
@@ -19,18 +20,23 @@ import {
 } from '../../../core/interfaces/recipe';
 import { ITagList } from '../../../core/interfaces/tags';
 import { AddDialogComponent } from '../../../shared/components/add-dialog/add-dialog.component';
+import { ViewRecipeDialogComponent } from '../../../shared/components/view-recipe-dialog/view-recipe-dialog.component';
 import { SharedService } from '../../../shared/services/shared.service';
 import { RecipeService } from '../../admin/recipes/services/recipe.service';
-import { UserRecipesService } from './services/user-recipes.service';
-import { ToastrService } from 'ngx-toastr';
-import { ViewRecipeDialogComponent } from '../../../shared/components/view-recipe-dialog/view-recipe-dialog.component';
+import { UserRecipesService } from '../user-recipes/services/user-recipes.service';
+import { FavRecipesService } from './services/fav-recipes.service';
+import {
+  IFavRecipeItem,
+  IFavRecipes,
+} from '../../../core/interfaces/favRecipes';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user-recipes',
-  templateUrl: './user-recipes.component.html',
-  styleUrl: './user-recipes.component.scss',
+  selector: 'app-fav-recipes',
+  templateUrl: './fav-recipes.component.html',
+  styleUrl: './fav-recipes.component.scss',
 })
-export class UserRecipesComponent {
+export class FavRecipesComponent {
   displayedColumns = [
     'ItemName',
     'Image',
@@ -44,7 +50,7 @@ export class UserRecipesComponent {
 
   tagList!: ITagList[];
   categoryList!: ICategoryList[];
-  dataSource: FoodItem[] = [];
+  dataSource: IFavRecipeItem[] = [];
   noData = false;
   searchForm!: FormGroup;
   pagesNumber!: number;
@@ -60,7 +66,9 @@ export class UserRecipesComponent {
     pageSize: 10,
   };
   view: 'table' | 'card' = 'table';
+  route = inject(ActivatedRoute);
   private destroy$ = new Subject<void>(); // 🚀 Unsubscribe handler
+  favRecipesActive = false; // Store query param value
 
   fb = inject(FormBuilder);
   constructor(
@@ -68,9 +76,12 @@ export class UserRecipesComponent {
     public dialog: MatDialog,
     private _sharedService: SharedService,
     private _userService: UserRecipesService,
-    private toaster: ToastrService
+    private _favService: FavRecipesService,
+    private toaster: ToastrService,
+    private router: Router
   ) {}
   ngOnInit(): void {
+    this.favRecipesActive = this.router.url.includes('/fav-recipes');
     this.getLookUp();
     this.searchForm = this.fb.group({
       name: [''],
@@ -117,11 +128,17 @@ export class UserRecipesComponent {
     });
   }
   openViewRecipeDialog(recipe: FoodItem): void {
-    this.dialog.open(ViewRecipeDialogComponent, {
+    const dialogRef=this.dialog.open(ViewRecipeDialogComponent, {
       width: '600px',
-      data: recipe,
+      data: { ...recipe, fav: this.favRecipesActive }, // ✅ Directly use stored value
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'deleted') {
+        this.getRecipes(); // ✅ Refresh table data
+      }
     });
   }
+
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddDialogComponent, {
       width: '600px',
@@ -156,10 +173,10 @@ export class UserRecipesComponent {
   }
 
   getRecipes(): void {
-    this.recipeService
-      .getRecipes(this.paramsData) // ✅ Pass paramsData object
+    this._favService
+      .getFavoriteRecipes(this.paramsData) // ✅ Pass paramsData object
       .pipe(takeUntil(this.destroy$))
-      .subscribe((response: PaginatedFoodResponse) => {
+      .subscribe((response: IFavRecipes) => {
         this.dataSource = response.data;
         this.pagesNumber = response.totalNumberOfPages;
         this.totalNumberOfRecords = response.totalNumberOfRecords;

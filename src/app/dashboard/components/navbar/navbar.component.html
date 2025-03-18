@@ -26,7 +26,7 @@
             <mat-icon>supervised_user_circle</mat-icon>
             User Profile
           </button>
-          <button mat-menu-item (click)="openChangePasswordDialog()">
+          <button mat-menu-item (click)="openChangePasswordDialog()" *ngIf="isAdmin">
             <mat-icon>lock_open</mat-icon>
             Change Password
           </button>

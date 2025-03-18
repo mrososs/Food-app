@@ -58,7 +58,7 @@ export class SidebarComponent implements OnInit {
     {
       name: 'Favorites',
       icon: 'favorite',
-      route: '',
+      route: 'user/fav-recipes',
       isAdmin: false, // Only for non-admins
     },
     {

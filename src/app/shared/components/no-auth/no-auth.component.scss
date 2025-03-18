@@ -1,0 +1,70 @@
+.no-auth {
+  background-image: url(../../../../../public/images/Vector.png);
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  .btn-primary {
+    border-radius: 8px;
+    background: #4aa35a;
+    border: none;
+    font-weight: 700;
+    padding: 0.5rem 5rem;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 3rem;
+    color: #1f263e;
+  }
+  p {
+    color: #1f263e;
+    display: inline-block;
+    width: 40%;
+    font-weight: 400;
+  }
+
+  .title p {
+    color: #009247;
+    font-weight: 400;
+    font-size: 2rem;
+    position: relative;
+    display: inline-block; // Add this to contain the pseudo-element
+    padding-right: 20px; // Add space for the dot
+
+    &::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      background-color: #1f263e; // Changed from color to background-color
+      left: 0; // Position it to the right of the text
+      bottom: 0; // Center vertically
+      transform: translateY(30%); // Perfect vertical centering
+    }
+  }
+
+  .ops_404 {
+    position: absolute;
+    left: 40%;
+    bottom: 0;
+
+    img {
+      aspect-ratio: 1/1;
+      max-width: 70%; // Make image responsive
+      height: auto; // Maintain aspect ratio
+    }
+
+    // Replace display: none with responsive positioning
+    @media screen and (max-width: 800px) {
+      left: 50%; // Center horizontally on small screens
+      transform: translateX(-50%); // Perfect centering
+      width: 60%; // Make it smaller on mobile
+      bottom: 0; // Add some space from bottom
+    }
+
+    // Even smaller screens
+    @media screen and (max-width: 480px) {
+      width: 40%; // Further reduce size on very small screens
+    }
+  }
+}
