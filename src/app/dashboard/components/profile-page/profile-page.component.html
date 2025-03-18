@@ -39,18 +39,11 @@
               <mat-icon>edit</mat-icon>
               EDIT PROFILE
             </button>
-            <button
-              class="btn btn-primary"
-              type="button"
-              *ngIf="isEditMode"
-              (click)="saveProfile()"
-            >
-              <div class="d-flex align-items-center">
-                <mat-icon class="me-3">save_alt</mat-icon>
-
-                SAVE PROFILE
-              </div>
+            <button class="edit-profile-btn me-3" type="button" *ngIf="isEditMode" (click)="openDialog()">
+              <mat-icon>edit</mat-icon>
+              Save
             </button>
+            
           </div>
         </form>
       </div>

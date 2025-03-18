@@ -16,3 +16,12 @@ export interface Group {
   creationDate: string; // ISO date string
   modificationDate: string; // ISO date string
 }
+
+export interface IProfileUser {
+  userName: string;
+  email: string;
+  country: string;
+  phoneNumber: string;
+  imagePath: string;
+  confirmPassword: string;
+}

@@ -22,6 +22,7 @@ import { CategoryDialogComponent } from './components/category-dialog/category-d
 import { UploaderModule } from 'angular-uploader';
 import { NoAuthComponent } from './components/no-auth/no-auth.component';
 import { ViewRecipeDialogComponent } from './components/view-recipe-dialog/view-recipe-dialog.component';
+import { UpdateProfileDialogComponent } from './components/update-profile-dialog/update-profile-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ViewRecipeDialogComponent } from './components/view-recipe-dialog/view-
     CategoryDialogComponent,
     NoAuthComponent,
     ViewRecipeDialogComponent,
+    UpdateProfileDialogComponent,
   ],
   imports: [
     CommonModule,

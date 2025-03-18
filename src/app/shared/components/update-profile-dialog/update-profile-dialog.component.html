@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Edit Your Profile</h2>
+<mat-dialog-content>
+  <p>Please Enter Your Password</p>
+    <mat-form-field>
+        <input matInput placeholder="Password" type="password" [(ngModel)]="password">
+    </mat-form-field>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="closeDialog()">No</button>
+    <button mat-raised-button (click)="updateProfile()">Update</button>
+
+</mat-dialog-actions>

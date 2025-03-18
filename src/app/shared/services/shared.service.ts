@@ -7,6 +7,7 @@ import {
   PaginatedCategoryResponse,
 } from '../../core/interfaces/category';
 import { IChangePassword } from '../../core/interfaces/password';
+import { IProfileUser } from '../../core/interfaces/profile_user';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,9 @@ export class SharedService {
     return this._http.get<PaginatedCategoryResponse>(
       `/Category/?pageSize=${pageSize}&pageNumber=${pageNum}`
     );
+  }
+  updateProfile(data:IProfileUser):Observable<IProfileUser>{
+    return this._http.put<IProfileUser>(`/Users`,data);
   }
   getTagList(): Observable<ITagList[]> {
     return this._http.get<ITagList[]>(

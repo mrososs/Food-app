@@ -1,8 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { SharedService } from '../../../shared/services/shared.service';
 import { UsersService } from '../../../shared/services/users.service';
 import { User } from '../../../core/interfaces/users';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateProfileDialogComponent } from '../../../shared/components/update-profile-dialog/update-profile-dialog.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -16,37 +17,55 @@ export class ProfilePageComponent implements OnInit {
   userCurrent: User | null = null;
   imgPath!: string | undefined;
   _userService = inject(UsersService);
-  constructor() {
-    this._userService.user$.subscribe((user) => {
-      this.userCurrent = user;
-    });
-    this.profileForm = this.fb.group({
-      userName: [{ value: '' }],
-      email: [{ value: '' }],
-      phoneNumber: [{ value: '' }],
-      country: [{ value: '' }],
-      imagePath: [{ value: '' }],
-    });
-  }
+
+  constructor(public dialog: MatDialog) {}
+
   ngOnInit(): void {
-    this.profileForm.disable();
     this._userService.user$.subscribe((user) => {
-      this.userCurrent = user;
-      this.imgPath = this.getImageUrl(user?.imagePath);
       if (user) {
-        this.profileForm.patchValue(user); // Populate form if user data is available
+        this.userCurrent = user;
+        this.imgPath = this.getImageUrl(user.imagePath);
+        this.initializeForm(user);
       }
     });
   }
-  saveProfile(): void {
-    console.log('Saving profile...', this.profileForm.value); // Debugging
-    this.isEditMode = false; // Disable edit mode
-    this.profileForm.disable(); // Lock fields again
+  openDialog(): void {
+    const dialogRef = this.dialog.open(UpdateProfileDialogComponent, {
+      width: '400px',
+      data: { formValues: this.profileForm.value }, // Pass form data
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.initializeForm(result);
+        this.isEditMode = false;
+      }
+    });
   }
+  initializeForm(user: User): void {
+    this.profileForm = this.fb.group({
+      userName: [user.userName],
+      email: [user.email],
+      phoneNumber: [user.phoneNumber],
+      country: [user.country],
+      imagePath: [user.imagePath],
+    });
+    this.profileForm.disable(); // Initially disabled
+  }
+
   onEdit(): void {
-    this.profileForm.enable();
     this.isEditMode = true;
+    this.profileForm.enable();
   }
+
+  saveProfile(): void {
+    if (this.profileForm.valid) {
+      console.log('Saving profile...', this.profileForm.value);
+      this.isEditMode = false;
+      this.initializeForm(this.profileForm.value); // Reinitialize form with fresh values
+    }
+  }
+
   getImageUrl(imagePath: string | undefined): string {
     const baseUrl = 'https://upskilling-egypt.com:3006/';
     return `${baseUrl}${imagePath}`;
