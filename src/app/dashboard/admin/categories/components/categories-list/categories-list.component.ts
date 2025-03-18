@@ -43,14 +43,17 @@ export class CategoriesListComponent implements OnInit {
       this.paramsData.pageSize
     );
   }
-  openDialog(mode: 'view'|'add' | 'edit' | 'delete', id?: number): void {
-      this.dialog.open(CategoryDialogComponent,{
-        width: '400px',
-        data: {
-          mode,
-          id,
-        },
-      })
+  openDialog(mode: 'view' | 'edit' | 'delete', id?: number): void {
+    const dialogRef = this.dialog.open(CategoryDialogComponent, {
+      width: '400px',
+      data: {
+        mode,
+        id,
+      },
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.getUsersList();
+    });
   }
   subscribeToUsers(): void {
     this.categories$.pipe(takeUntil(this.destroy$)).subscribe({

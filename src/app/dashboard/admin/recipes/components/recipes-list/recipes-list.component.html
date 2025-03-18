@@ -53,6 +53,11 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <div class="col">
+            <button class="btn btn-secondary" (click)="clearFilter()">
+              Clear Filter
+            </button>
+          </div>
         </form>
         <div class="mt-5 table mb-5">
           <mat-table #table [dataSource]="dataSource">
@@ -119,11 +124,22 @@
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item>
+                  <button
+                    mat-menu-item
+                    (click)="openDialog('view', element.id)"
+                  >
                     <mat-icon>remove_red_eye</mat-icon> View
                   </button>
-                  <button mat-menu-item><mat-icon>edit</mat-icon>Edit</button>
-                  <button mat-menu-item>
+                  <button
+                    mat-menu-item
+                    (click)="openDialog('edit', element.id)"
+                  >
+                    <mat-icon>edit</mat-icon>Edit
+                  </button>
+                  <button
+                    mat-menu-item
+                    (click)="openDialog('delete', element.id)"
+                  >
                     <mat-icon>delete</mat-icon>Delete
                   </button>
                 </mat-menu>

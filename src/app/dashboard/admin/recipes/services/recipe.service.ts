@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PaginatedFoodResponse } from '../../../../core/interfaces/recipe';
+import { FoodItem, PaginatedFoodResponse } from '../../../../core/interfaces/recipe';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +26,8 @@ export class RecipeService {
     }
 
     return this._http.get<PaginatedFoodResponse>(url, { params });
+  }
+  getRecipeById(id: number): Observable<FoodItem> {
+    return this._http.get<FoodItem>(`/Recipe/${id}`);
   }
 }

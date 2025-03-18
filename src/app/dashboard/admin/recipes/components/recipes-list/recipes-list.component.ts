@@ -21,6 +21,7 @@ import { AddDialogComponent } from '../../../../../shared/components/add-dialog/
 import { SharedService } from '../../../../../shared/services/shared.service';
 import { ITagList } from '../../../../../core/interfaces/tags';
 import { PageEvent } from '@angular/material/paginator';
+import { CategoryDialogComponent } from '../../../../../shared/components/category-dialog/category-dialog.component';
 
 @Component({
   selector: 'app-recipes-list',
@@ -81,10 +82,10 @@ export class RecipesListComponent implements OnInit {
     )
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        const name = this.searchForm.get('name')!.value;
-        const tag = this.searchForm.get('tag')!.value;
-        const category = this.searchForm.get('category')!.value;
-        this.paramsData.tagId = tag;
+        this.paramsData.name = this.searchForm.get('name')!.value || '';
+        this.paramsData.tagId = this.searchForm.get('tag')!.value || undefined;
+        this.paramsData.categoryId =
+          this.searchForm.get('category')!.value || undefined;
         this.getRecipes(); // ✅ Call API with updated values
       });
 
@@ -94,10 +95,33 @@ export class RecipesListComponent implements OnInit {
     const baseUrl = 'https://upskilling-egypt.com:3006/'; // ✅ تأكد أن هذا هو الـ base URL الصحيح
     return `${baseUrl}${imagePath}`;
   }
-
+  clearFilter(): void {
+    this.searchForm.reset();
+    this.paramsData.name = '';
+    this.paramsData.tagId = undefined;
+    this.paramsData.categoryId = undefined;
+    this.getRecipes();
+  }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete(); // ✅ Clean up subscriptions
+  }
+  openDialog(
+    mode: 'view' | 'edit' | 'delete',
+    id?: number,
+    catMode?: boolean
+  ): void {
+    const dialogRef = this.dialog.open(CategoryDialogComponent, {
+      width: '400px',
+      data: {
+        mode,
+        id,
+        catMode: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.getRecipes();
+    });
   }
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddDialogComponent, {

@@ -2,11 +2,15 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CategoriesService } from '../../../dashboard/admin/categories/services/categories.service';
+import { RecipeService } from '../../../dashboard/admin/recipes/services/recipe.service';
 
 interface DialogData {
-  mode: 'add'|'view' | 'edit' | 'delete';
-  id?: number;
-  categoryName?: string;
+  mode: 'add' | 'view' | 'edit' | 'delete';
+  id: number;
+  name?: string;
+  price?: string;
+  description?: string;
+  catMode?: boolean;
 }
 
 @Component({
@@ -16,26 +20,59 @@ interface DialogData {
 })
 export class CategoryDialogComponent implements OnInit {
   categoryForm!: FormGroup;
-  title = 'Add Category';
+  title = 'View Category';
   isDeleteMode = false;
+  isView = false;
+  isEdit = false;
 
   constructor(
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: FormBuilder,
-    private categoriesService:CategoriesService
+    private categoriesService: CategoriesService,
+    private _recipeService: RecipeService
   ) {}
 
   ngOnInit(): void {
+    console.log(this.data);
     this.categoryForm = this.fb.group({
-      name: [this.data.categoryName || ''],
+      name: [this.data.name || ''],
+      price: [this.data.price || ''],
+      description: [this.data.description || ''],
     });
-    this.categoriesService.getCategoryById(this.data.id).subscribe(
-      {
-        next:()=>this.categoryForm.patchValue({name:this.data.categoryName})
+    if (this.data.mode === 'edit') {
+      this.isEdit = true;
+    }
+    if (this.data.mode === 'view') {
+      this.isView = true;
+      this.categoryForm.disable();
+    }
+    if (!this.data.catMode) {
+      this.categoriesService.getCategoryById(this.data.id).subscribe({
+        next: (res) => {
+          this.categoryForm.patchValue({ name: res.name });
+        },
+      });
+    } else {
+      this.title = 'View Recipe';
+      if (this.data.mode === 'edit') {
+        this.title = 'Edit Recipe';
+      } else if (this.data.mode === 'delete') {
+        this.title = 'Delete Recipe';
+        this.isDeleteMode = true;
       }
-    );
-    console.log('Dialog data:', this.data);
+      this._recipeService.getRecipeById(this.data.id).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.categoryForm.patchValue({
+            name: res.name,
+            price: res.price,
+            description: res.description,
+          });
+        },
+      });
+    }
+
     // Update title based on mode
     if (this.data.mode === 'edit') {
       this.title = 'Edit Category';
@@ -44,12 +81,22 @@ export class CategoryDialogComponent implements OnInit {
       this.isDeleteMode = true;
     }
   }
-
+  deleteItem(): void {
+    this.categoriesService.deleteCategory(this.data.id).subscribe({
+      next: () => {
+        this.dialogRef.close('delete');
+      },
+    });
+  }
   save(): void {
-    if (this.isDeleteMode) {
-      console.log(`Deleting category with ID: ${this.data.id}`);
-    } else {
-      console.log('Saving category:', this.categoryForm.value);
+    if (this.isEdit) {
+      this.categoriesService
+        .updateCategory(this.data.id, this.categoryForm.value)
+        .subscribe({
+          next: () => {
+            this.dialogRef.close('edit');
+          },
+        });
     }
     this.dialogRef.close(this.categoryForm.value);
   }
