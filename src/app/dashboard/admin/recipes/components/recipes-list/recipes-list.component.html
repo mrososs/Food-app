@@ -126,19 +126,19 @@
                 <mat-menu #menu="matMenu">
                   <button
                     mat-menu-item
-                    (click)="openDialog('view', element.id)"
+                    (click)="openDialog('view', element.id,true)"
                   >
                     <mat-icon>remove_red_eye</mat-icon> View
                   </button>
                   <button
                     mat-menu-item
-                    (click)="openDialog('edit', element.id)"
+                    (click)="openDialog('edit', element.id, true)"
                   >
                     <mat-icon>edit</mat-icon>Edit
                   </button>
                   <button
                     mat-menu-item
-                    (click)="openDialog('delete', element.id)"
+                    (click)="openDialog('delete', element.id,true)"
                   >
                     <mat-icon>delete</mat-icon>Delete
                   </button>

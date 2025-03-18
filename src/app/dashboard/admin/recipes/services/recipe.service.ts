@@ -30,4 +30,10 @@ export class RecipeService {
   getRecipeById(id: number): Observable<FoodItem> {
     return this._http.get<FoodItem>(`/Recipe/${id}`);
   }
+  updateRecipe(id:number , data:FoodItem):Observable<FoodItem>{
+    return this._http.put<FoodItem>(`/Recipe/${id}`,data);
+  }
+  deleteRecipe(id:number):Observable<any>{
+    return this._http.delete(`/Recipe/${id}`);
+  }
 }

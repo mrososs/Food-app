@@ -49,11 +49,11 @@ import { ViewRecipeDialogComponent } from './components/view-recipe-dialog/view-
     MatTooltipModule,
     MatInputModule,
     UploaderModule,
-
     MatTableModule,
   ],
   exports: [
     MatIcon,
+    UploaderModule,
     NoAuthComponent,
     MatTooltipModule,
     AddDialogComponent,

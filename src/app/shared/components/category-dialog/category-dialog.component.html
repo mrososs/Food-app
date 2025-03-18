@@ -3,21 +3,61 @@
   <button class="close-btn" (click)="close()">✖</button>
 
   <form [formGroup]="categoryForm" *ngIf="!isDeleteMode" (ngSubmit)="save()">
-    <mat-form-field appearance="outline" class="full-width" *ngIf="!data.catMode">
+    <mat-form-field
+      appearance="outline"
+      class="full-width"
+      *ngIf="!data.catMode"
+    >
       <mat-label>Category Name</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
-    <mat-form-field appearance="outline" class="full-width" *ngIf="data.catMode">
+    <mat-form-field
+      appearance="outline"
+      class="full-width"
+      *ngIf="data.catMode"
+    >
       <mat-label>Recipe Name</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
-    <mat-form-field appearance="outline" class="full-width" *ngIf="data.catMode">
+    <mat-form-field
+      appearance="outline"
+      class="full-width"
+      *ngIf="data.catMode"
+    >
       <mat-label>Recipe Price</mat-label>
       <input matInput formControlName="price" />
     </mat-form-field>
-    <mat-form-field appearance="outline" class="full-width" *ngIf="data.catMode">
+    <mat-form-field
+      appearance="outline"
+      class="full-width"
+      *ngIf="data.catMode"
+    >
       <mat-label>Recipe description</mat-label>
       <input matInput formControlName="description" />
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      class="full-width"
+      *ngIf="data.catMode"
+    >
+      <mat-label>Tag</mat-label>
+      <mat-select formControlName="tagId">
+        <mat-option *ngFor="let tag of tagList" [value]="tag.id"
+          >{{ tag.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      class="full-width"
+      *ngIf="data.catMode"
+    >
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoriesIds" multiple>
+        <mat-option *ngFor="let cat of catList" [value]="cat.id"
+          >{{ cat.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <div class="button-group">

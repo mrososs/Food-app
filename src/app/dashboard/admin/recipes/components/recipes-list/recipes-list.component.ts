@@ -116,7 +116,7 @@ export class RecipesListComponent implements OnInit {
       data: {
         mode,
         id,
-        catMode: true,
+        catMode
       },
     });
     dialogRef.afterClosed().subscribe(() => {
